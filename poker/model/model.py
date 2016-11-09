@@ -25,8 +25,6 @@ class Session:
     def get_players(self):
         return [self.players]
 
-    def
-
 
 class Voting:
     def __init__(self, task):
