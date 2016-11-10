@@ -39,8 +39,10 @@ class Vote:
 
 
 class Board:
-    def __init__(self, name, url, roles):
+    def __init__(self, name, url, roles, admin):
         self.name = name
         self.url = url
         self.roles = roles
+        self.admin = admin
         self.tasks = []
+        self.players = []

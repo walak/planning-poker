@@ -1,11 +1,7 @@
 import random
 import string
 
-from flask import Flask
-from flask import request
-from flask import Response
-from flask import render_template
-from flask.json import jsonify
+from flask import Flask, Request, Response, request, render_template, session, redirect, url_for
 
 from model.model import Board
 from web.utils import generate_id
@@ -13,9 +9,14 @@ import os
 from web import session_manager
 from jsonpickle import pickler
 
-boards = {}
-
 app = Flask(__name__, None, None, None, "../html")
+app.secret_key = generate_id(40)
+
+
+@app.before_request
+def session_aware():
+    if 'id' not in session:
+        session['id'] = generate_id(25)
 
 
 @app.route("/")
@@ -28,15 +29,19 @@ def new_board():
     if request.method == "POST":
         name = request.form['name']
         roles = request.form.getlist('role[]')
-        board = Board(name, generate_id(), roles)
+        admin = session['id']
+        board = Board(name, generate_id(), roles, admin)
         session_manager.add_board(board)
-        return as_json(board)
+        return redirect(url_for("join_board", id=board.url))
 
 
-@app.route("/board/<id>/", methods=['GET'])
-def open_board(id):
+@app.route("/board/<id>/join", methods=['GET', 'POST'])
+def join_board(id):
     board = session_manager.get_board(id)
-    return render_template("join.html", name=board.name)
+    board_admin = board.admin
+    current_user = session['id']
+    as_admin = current_user == board_admin
+    return render_template("join.html", name=board.name, admin=as_admin)
 
 
 @app.route("/debug/boards/")

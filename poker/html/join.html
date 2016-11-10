@@ -10,13 +10,18 @@
 <form>
     <div>
         <label for="nick">Nick:</label>
-        <input type="text" name="nick" id="nick">
+        <input type="text" name="nick" id="nick" value="{{ nick }}">
         <label for="role">Role:</label>
         <select name="role" id="role">
             <option value="dev">Dev</option>
             <option value="qa">QA</option>
         </select>
         <input type="button" value="Join!">
+        {% if admin is equalto True %}
+        <em>
+            You are joining as admin of the board
+        </em>
+        {% endif %}
     </div>
 </form>
 </body>
