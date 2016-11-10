@@ -43,3 +43,4 @@ class Board:
         self.name = name
         self.url = url
         self.roles = roles
+        self.tasks = []
