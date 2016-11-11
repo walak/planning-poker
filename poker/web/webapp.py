@@ -1,27 +1,34 @@
 from collections import Iterable
-from flask import Flask, session
-from web.utils import generate_id
+
+from flask import Flask
+from flask import Response
+from jsonpickle import pickler
+
+GET = "GET"
+POST = "POST"
+GET_AND_POST = ["GET", "POST"]
 
 
 class BasicWebApp:
-    MAPPINGS = []
-    DEBUG_MAPPINGS = []
-
-    def __init__(self, app: Flask, use_session_id=False, debug_mode=False):
+    def __init__(self, app: Flask, debug_mode=False):
         self.app = app
-        if use_session_id:
-            self.app.before_request(self.set_id)
 
-        self.__add_mappings(self.MAPPINGS)
+        self.__add_mappings(self.get_mappings())
         if debug_mode:
-            self.__add_mappings(self.DEBUG_MAPPINGS)
+            self.__add_mappings(self.get_debug_mappings())
 
-    def set_id(self):
-        if 'id' not in session:
-            session['id'] = generate_id(25)
+    def get_mappings(self):
+        return []
+
+    def get_debug_mappings(self):
+        return []
+
+    def json_response(self, entity):
+        payload = pickler.encode(entity)
+        return Response(response=payload, status=200, mimetype="application/json")
 
     def __add_mappings(self, mpgs):
-        [self.__add_mapping(m[0], m[1], m[3]) for m in mpgs]
+        [self.__add_mapping(m[0], m[1], m[2]) for m in mpgs]
 
     def __add_mapping(self, url, method_or_methods, handler):
         if isinstance(method_or_methods, Iterable) and not isinstance(method_or_methods, str):

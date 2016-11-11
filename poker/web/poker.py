@@ -1,26 +1,21 @@
-import random
-import string
-
 import collections
-from flask import Flask, Request, Response, request, render_template, session, redirect, url_for
 
-from model.model import Board, Player, Role
-from web.utils import generate_id
-import os
-from web import session_manager
+from flask import Flask, Response, request, render_template, session, redirect, url_for
 from jsonpickle import pickler
+
+from model.model import Board, Player
+from web import session_manager
 from web.static_data_provider import ROLES, get_role_by_short_name
+from web.utils import generate_id
+from web.webapp import BasicWebApp
+from web.webapp import GET, POST, GET_AND_POST
 
 
-class Poker:
+class Poker(BasicWebApp):
     def __init__(self, app: Flask):
+        super().__init__(app, False)
         self.app = app
-        self.app.before_request(self.__set_id)
-        self.app.secret_key = generate_id(40)
-        self.__config_mappings()
-
-    def start(self):
-        self.app.run(port=8080, threaded=True)
+        self.app.before_request(self.set_id)
 
     def home(self):
         return render_template("index.html", roles=ROLES)
@@ -60,39 +55,33 @@ class Poker:
         else:
             return redirect(url_for("join_board", id=id))
 
-    def __config_mappings(self):
-        self.add_mapping("/", "GET", self.home)
-        self.add_mapping("/board/new/", "POST", self.new_board)
-        self.add_mapping("/board/<id>/join", ["GET", "POST"], self.join_board)
-        self.add_mapping("/board/<id>/join_as", "POST", self.add_player_to_board)
-        self.add_mapping("/board/<id>", "GET", self.open_board)
+    def debug_boards(self):
+        return self.json_response(session_manager.BOARDS.keys())
 
-    def add_mapping(self, url, method_or_methods, handler):
-        if isinstance(method_or_methods, collections.Iterable) and not isinstance(method_or_methods, str):
-            mthds = list(method_or_methods)
-        else:
-            mthds = [method_or_methods]
-        self.app.add_url_rule(url, view_func=handler, methods=mthds)
+    def get_mappings(self):
+        return [
+            ("/", GET, self.home),
+            ("/board/new", POST, self.new_board),
+            ("/board/<id>/join", GET_AND_POST, self.join_board),
+            ("/board/<id>/join_as", POST, self.add_player_to_board),
+            ("/board/<id>", GET, self.open_board)
+        ]
 
-    def __set_id(self):
+    def get_debug_mappings(self):
+        return [
+            ("/debug/boards", GET, self.debug_boards)
+        ]
+
+    def set_id(self):
         if 'id' not in session:
             session['id'] = generate_id(25)
 
 
 app = Flask(__name__, None, None, None, "../html")
 
-
-@app.route("/debug/boards/")
-def debug_boards():
-    return as_json(session_manager.BOARDS.keys())
-
-
-def as_json(entity):
-    payload = pickler.encode(entity)
-    return Response(response=payload, status=200, mimetype="application/json")
-
-
 if __name__ == "__main__":
     poker = Poker(app)
+    app.secret_key = generate_id(40)
+    app.url_map.strict_slashes = False
 
-    poker.start()
+    app.run(port=8080, threaded=True)
