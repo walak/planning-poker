@@ -21,7 +21,7 @@
             </em>
         </div>
         <div>
-            <input type="radio" name="role_set" value="without">
+            <input type="radio" name="role_set" value="with">
             With roles
             <em>
                 Every player declares a role when joining the board.
@@ -30,14 +30,20 @@
             </em>
         </div>
         </p>
-        <p>Select roles available on the board:
+        <p>
         <div>
-            <em>If you wish only some roles may be available on the board. Remember that <b>role is declared by
-                player</b> and it is not intended to prevent people from joining</em>
+            Select roles available on the board:
+        </div>
+        <em>If you wish only some roles may be available on the board. Remember that <b>role is declared by
+            player</b> and it is not intended to prevent people from joining
+        </em>
+        <div>
             {% for role in roles %}
-            <label for="role_{{ role.short_name }}">{{ role.full_name }}</label>
-            <input type="checkbox" name="role[]" value="{{ role.short_name }}" id="role_{{ role.short_name }}"
-                   checked="checked">
+            <div>
+                <input type="checkbox" name="role[]" value="{{ role.short_name }}" id="role_{{ role.short_name }}"
+                       checked="checked">
+                <label for="role_{{ role.short_name }}">{{ role.full_name }}</label>
+            </div>
             {% endfor %}
         </div>
         </p>

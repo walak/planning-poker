@@ -30,3 +30,7 @@ def player_to_player_view(board, player, current_player):
     admin = player.id == board.admin
     current = player.id = current_player
     return PlayerView(player.id, player.name, player.role, admin, current)
+
+
+def is_player_on_board(player_id, board_id):
+    return [p for p in BOARDS[board_id].players if p.id == player_id]

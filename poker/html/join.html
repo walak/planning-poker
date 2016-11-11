@@ -2,22 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Planning Poker - Join the board {{ name }}</title>
+    <title>Planning Poker - Join the board {{ board.name }}</title>
 </head>
 <body>
 <h1>Planning Poker</h1>
-<h3>Join the board {{ name }}</h3>
+<h3>Join the board {{ board.name }}</h3>
 <form method="post" action="join_as">
     <div>
         <label for="nick">Nick:</label>
         <input type="text" name="nick" id="nick" value="{{ nick }}">
+        {% if board.with_roles() is equalto True %}
         <label for="role">Role:</label>
         <select name="role" id="role">
-            <option value="dev">Dev</option>
-            <option value="qa">QA</option>
+            {% for role in board.roles %}
+            <option value="{{ role.short_name }}">{{ role.full_name }}</option>
+            {% endfor %}
         </select>
+        {% endif %}
         <input type="button" value="Join!">
-        {% if admin is equalto True %}
+        {% if as_admin is equalto True %}
         <em>
             You are joining as admin of the board
         </em>

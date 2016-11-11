@@ -80,3 +80,6 @@ class Board:
         self.tasks = []
         self.players = []
         self.active_task = None
+
+    def with_roles(self):
+        return len(self.roles) > 0
