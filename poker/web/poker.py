@@ -1,7 +1,4 @@
-import collections
-
-from flask import Flask, Response, request, render_template, session, redirect, url_for
-from jsonpickle import pickler
+from flask import Flask, request, render_template, session, redirect, url_for
 
 from model.model import Board, Player
 from web import session_manager
@@ -14,7 +11,6 @@ from web.webapp import GET, POST, GET_AND_POST
 class Poker(BasicWebApp):
     def __init__(self, app: Flask):
         super().__init__(app, False)
-        self.app = app
         self.app.before_request(self.set_id)
 
     def home(self):
@@ -76,12 +72,3 @@ class Poker(BasicWebApp):
         if 'id' not in session:
             session['id'] = generate_id(25)
 
-
-app = Flask(__name__, None, None, None, "../html")
-
-if __name__ == "__main__":
-    poker = Poker(app)
-    app.secret_key = generate_id(40)
-    app.url_map.strict_slashes = False
-
-    app.run(port=8080, threaded=True)
