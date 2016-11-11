@@ -26,10 +26,18 @@ def get_players_to_display(board_id, current_player):
     return [player_to_player_view(board, p, current_player) for p in players]
 
 
+def get_tasks_to_display(board_id):
+    return get_board(board_id).tasks
+
+
 def player_to_player_view(board, player, current_player):
     admin = player.id == board.admin
-    current = player.id = current_player
+    current = player.id == current_player
     return PlayerView(player.id, player.name, player.role, admin, current)
+
+
+def task_to_task_view(task):
+    pass
 
 
 def is_player_on_board(player_id, board_id):

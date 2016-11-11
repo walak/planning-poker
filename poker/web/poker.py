@@ -47,7 +47,8 @@ class Poker(BasicWebApp):
         if session_manager.is_player_on_board(session['id'], id):
             tasks = session_manager.get_board(id).tasks
             players = session_manager.get_players_to_display(id, session['id'])
-            return render_template("board.html", tasks=tasks, players=players)
+            board = session_manager.get_board(id)
+            return render_template("board.html", tasks=tasks, players=players, board=board)
         else:
             return redirect(url_for("join_board", id=id))
 
@@ -71,4 +72,3 @@ class Poker(BasicWebApp):
     def set_id(self):
         if 'id' not in session:
             session['id'] = generate_id(25)
-
