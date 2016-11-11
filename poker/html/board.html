@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <title>Planning Poker - {{ board.name }}</title>
 </head>
-<body>
+<body id="{{ board.url }}">
 <h1>Planning Poker</h1>
 <h3>{{ board.name }}</h3>
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/static/main.js"></script>
+
 <table>
     <tr>
         <td width="15%">
@@ -18,6 +24,24 @@
             </ul>
             <form>
                 <div>
+                    <form>
+                        <div>
+                            New task
+                            <p>
+                                <label for="task_name">
+                                    Name
+                                </label>
+                                <input type="text" name="name" id="task_name">
+                            </p>
+                            <p>
+                                <label for="task_desc">
+                                    Description
+                                </label>
+                                <textarea name="description" id="task_desc"></textarea>
+                            </p>
+                            <button>Add task</button>
+                        </div>
+                    </form>
                     <input type="button" value="Add task">
                 </div>
                 <div>
@@ -26,12 +50,12 @@
             </form>
         </td>
         <td width="70%">
-            <h3>[ID] Task name</h3>
+            <h3>No tasks on the board...</h3>
             <div>
                 <p>
                     Desciption:
                     <em>
-                        This is a task description. The task will be very hard to do and you may die on the quest.
+                        Consider adding a new task...
                     </em>
                 </p>
             </div>
@@ -44,19 +68,9 @@
                 </button>
             </div>
             <div>
-                <button>0</button>
-                <button>0.5</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>5</button>
-                <button>8</button>
-                <button>13</button>
-                <button>20</button>
-                <button>40</button>
-                <button>100</button>
-                <button>Coffee</button>
-                <button>???</button>
+                {% for e in estimates %}
+                <button value="{{ e.value }}">{{ e.label }}</button>
+                {% endfor %}
             </div>
             <div>
                 <p>

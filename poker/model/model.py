@@ -36,6 +36,12 @@ class Role:
         self.can_vote = can_vote
 
 
+class Estimate:
+    def __init__(self, value, label):
+        self.value = value
+        self.label = label
+
+
 class Player:
     def __init__(self, id, name, role=None):
         self.id = id

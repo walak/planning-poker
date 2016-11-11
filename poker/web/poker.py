@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, session, redirect, url_for
 
 from model.model import Board, Player
 from web import session_manager
-from web.static_data_provider import ROLES, get_role_by_short_name
+from web.static_data_provider import ROLES, get_role_by_short_name, ESTIMATES
 from web.utils import generate_id
 from web.webapp import BasicWebApp
 from web.webapp import GET, POST, GET_AND_POST
@@ -48,7 +48,7 @@ class Poker(BasicWebApp):
             tasks = session_manager.get_board(id).tasks
             players = session_manager.get_players_to_display(id, session['id'])
             board = session_manager.get_board(id)
-            return render_template("board.html", tasks=tasks, players=players, board=board)
+            return render_template("board.html", tasks=tasks, players=players, board=board, estimates=ESTIMATES)
         else:
             return redirect(url_for("join_board", id=id))
 
