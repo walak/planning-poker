@@ -3,7 +3,7 @@ import string
 
 from flask import Flask, Request, Response, request, render_template, session, redirect, url_for
 
-from model.model import Board
+from model.model import Board, Player
 from web.utils import generate_id
 import os
 from web import session_manager
@@ -39,9 +39,26 @@ def new_board():
 def join_board(id):
     board = session_manager.get_board(id)
     board_admin = board.admin
+    bid = board.url
     current_user = session['id']
     as_admin = current_user == board_admin
-    return render_template("join.html", name=board.name, admin=as_admin)
+    return render_template("join.html", name=board.name, admin=as_admin, bid=bid)
+
+
+@app.route("/board/<id>/join_as", methods=['POST'])
+def add_player_to_board(id):
+    nick = request.form['nick']
+    role = request.form['role']
+    player_id = session['id']
+    session_manager.get_board(id).players.append(Player(id, nick))
+    return redirect(url_for("open_board", id=id))
+
+
+@app.route("/board/<id>", methods=['GET'])
+def open_board(id):
+    tasks = session_manager.get_board(id).tasks
+    players = session_manager.get_players_to_display(id, session['id'])
+    return render_template("board.html", tasks=tasks, players=players)
 
 
 @app.route("/debug/boards/")

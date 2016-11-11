@@ -10,9 +10,9 @@
         <td width="15%">
             <h5>Tasks</h5>
             <ul>
-                <li class="selected">GTC-42221 Some task</li>
-                <li class="active_voting">GTC-42231 Other task</li>
-                <li>GTC-3421 Old task</li>
+                {% for task in tasks %}
+                <li class="{{ task.get_classes() }}">{{ task.name }}</li>
+                {% endfor %}
             </ul>
             <form>
                 <div>
@@ -67,9 +67,11 @@
         <td width="15%">
             <h5>Participants</h5>
             <ul>
-                <li class="you role_1">Krzysztof</li>
-                <li class="role_1">Elena</li>
-                <li class="role_2">Mike</li>
+                {% for player in players %}
+                <li class="{{ player.get_classes() }}">
+                    {{ player.name }}
+                </li>
+                {% endfor %}
             </ul>
         </td>
     </tr>
