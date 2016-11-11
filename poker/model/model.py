@@ -29,6 +29,13 @@ class TaskView(Task):
         return "%s" % self.get_voted_class()
 
 
+class Role:
+    def __init__(self, short_name, full_name, can_vote):
+        self.short_name = short_name
+        self.full_name = full_name
+        self.can_vote = can_vote
+
+
 class Player:
     def __init__(self, id, name, role=None):
         self.id = id
@@ -44,7 +51,7 @@ class PlayerView(Player):
 
     def get_role_class(self):
         if self.role is not None:
-            return "role_%s" % self.role
+            return "role_%s" % self.role.short_name
         else:
             return ""
 

@@ -8,6 +8,7 @@ from web.utils import generate_id
 import os
 from web import session_manager
 from jsonpickle import pickler
+from web.static_data_provider import ROLES
 
 app = Flask(__name__, None, None, None, "../html")
 app.secret_key = generate_id(40)
@@ -21,7 +22,7 @@ def session_aware():
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", roles=ROLES)
 
 
 @app.route("/board/new/", methods=['POST'])

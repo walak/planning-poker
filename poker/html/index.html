@@ -11,13 +11,35 @@
     <div>
         <label for="name">Name:</label>
         <input type="text" name="name" id="name">
-        <p>Roles:
-            <label for="role_dev">Dev</label>
-            <input type="checkbox" name="role[]" value="dev" id="role_dev">
-            <label for="role_qa">QA</label>
-            <input type="checkbox" name="role[]" value="qa" id="role_qa">
-            <label for="role_ba">BA</label>
-            <input type="checkbox" name="role[]" value="ba" id="role_ba">
+        <p>
+            Role set:
+        <div>
+            <input type="radio" name="role_set" value="without">
+            Without roles
+            <em>
+                All players are treated in the same way (all can vote, no categorized votes
+            </em>
+        </div>
+        <div>
+            <input type="radio" name="role_set" value="without">
+            With roles
+            <em>
+                Every player declares a role when joining the board.
+                Devs, QAs and BAs can vote and their votes are categorized.
+                Product Owners and Spectators cannot vote.
+            </em>
+        </div>
+        </p>
+        <p>Select roles available on the board:
+        <div>
+            <em>If you wish only some roles may be available on the board. Remember that <b>role is declared by
+                player</b> and it is not intended to prevent people from joining</em>
+            {% for role in roles %}
+            <label for="role_{{ role.short_name }}">{{ role.full_name }}</label>
+            <input type="checkbox" name="role[]" value="{{ role.short_name }}" id="role_{{ role.short_name }}"
+                   checked="checked">
+            {% endfor %}
+        </div>
         </p>
         <input type="submit" value="Create!">
     </div>
