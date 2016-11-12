@@ -1,49 +1,67 @@
 {% extends "base.html" %}
 {% block title %}Create a new board{% endblock %}
 {% block content %}
-<h1>Planning Poker</h1>
-<h3>Create a new board</h3>
-<form method="post" action="/board/new">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name">
-        <p>
-            Role set:
-        <div>
-            <input type="radio" name="role_set" value="without" checked="checked">
-            Without roles
-            <em>
-                All players are treated in the same way (all can vote, no categorized votes
-            </em>
+<div class="page-header">
+    <h1>Planning Poker</h1>
+</div>
+<div class="panel">
+    <h3>Create a new board</h3>
+    <form method="post" action="/board/new">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon1">Name</span>
+            <input type="text" name="name" id="name" class="form-control" aria-describedby="sizing-addon1">
         </div>
-        <div>
-            <input type="radio" name="role_set" value="with">
-            With roles
-            <em>
-                Every player declares a role when joining the board.
-                Devs, QAs and BAs can vote and their votes are categorized.
-                Product Owners and Spectators cannot vote.
-            </em>
-        </div>
-        </p>
-        <p>
-        <div>
-            Select roles available on the board:
-        </div>
-        <em>If you wish only some roles may be available on the board. Remember that <b>role is declared by
-            player</b> and it is not intended to prevent people from joining
-        </em>
-        <div>
-            {% for role in roles %}
-            <div>
-                <input type="checkbox" name="role[]" value="{{ role.short_name }}" id="role_{{ role.short_name }}"
-                       checked="checked">
-                <label for="role_{{ role.short_name }}">{{ role.full_name }}</label>
+        <div class="form-column">
+            <div class="form-column-content">
+                <div>
+                    <input id="with_roles" type="radio" name="role_set" value="with">
+                    <label for="with_roles">
+                        <h4>Board with roles</h4>
+                    </label>
+                </div>
+                <em>
+                    Every player declares a role when joining the board.
+                    Devs, QAs and BAs can vote and their votes are categorized.
+                    Product Owners and Spectators cannot vote.
+                </em>
+                <h4>
+                    Select roles available on the board:
+                </h4>
+                <em>If you wish only some roles may be available on the board. Remember that <b>role is declared by
+                    player</b> and it is not intended to prevent people from joining
+                </em>
+                <div>
+                    {% for role in roles %}
+                    <div>
+                        <input type="checkbox" name="role[]" value="{{ role.short_name }}"
+                               id="role_{{ role.short_name }}"
+                               checked="checked">
+                        <label for="role_{{ role.short_name }}">{{ role.full_name }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+                </p>
             </div>
-            {% endfor %}
         </div>
-        </p>
-        <input type="submit" value="Create!">
-    </div>
-</form>
+        <div class="form-column">
+            <div class="form-column-content">
+                <div>
+                    <input id="without_roles" type="radio" name="role_set" value="without" checked="checked">
+                    <label for="without_roles">
+                        <h4>Board without roles</h4>
+                    </label>
+                </div>
+                <em>
+                    All players are treated in the same way (all players can vote, no categorized votes)
+                </em>
+            </div>
+        </div>
+        <div class="form-column cleared">
+            <div class="form-column-content">
+                <input type="submit" value="Create!">
+            </div>
+        </div>
+    </form>
+</div>
+
 {% endblock %}

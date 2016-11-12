@@ -1,0 +1,20 @@
+#poker {
+    width:1000px;
+    margin:0px auto
+}
+
+.form-column {
+    float:left;
+    width:50%
+}
+
+.form-column-content {
+    box-sizing:border-box;
+    float:left;
+    padding:0px 5px;
+    width:100%
+}
+
+.cleared {
+    clear:both
+}
