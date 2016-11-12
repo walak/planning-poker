@@ -45,7 +45,7 @@ class Poker(BasicWebApp):
 
     def open_board(self, id):
         if session_manager.is_player_on_board(session['id'], id):
-            tasks = session_manager.get_board(id).tasks
+            tasks = session_manager.get_tasks_to_display(id)
             players = session_manager.get_players_to_display(id, session['id'])
             board = session_manager.get_board(id)
             return render_template("board.html", tasks=tasks, players=players, board=board, estimates=ESTIMATES)

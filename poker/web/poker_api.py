@@ -4,6 +4,7 @@ from flask import Response
 from flask import request
 from flask import session
 
+from model.model import Task
 from web.webapp import BasicWebApp, GET, POST
 from web import session_manager
 
@@ -21,8 +22,9 @@ class PokerApi(BasicWebApp):
 
     def add_task_to_board(self, board_id):
         payload = request.get_json()
-
-        return Response(status=200)
+        task = Task.from_json(payload)
+        tasks = session_manager.add_task_to_board(task, board_id)
+        return self.json_response(tasks)
 
     def get_mappings(self):
         return [

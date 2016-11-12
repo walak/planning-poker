@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Planning Poker - {{ board.name }}</title>
 </head>
-<body id="{{ board.url }}">
+<body data-board-id="{{ board.url }}">
 <h1>Planning Poker</h1>
 <h3>{{ board.name }}</h3>
 <script
@@ -17,9 +17,9 @@
     <tr>
         <td width="15%">
             <h5>Tasks</h5>
-            <ul>
+            <ul id="task_list">
                 {% for task in tasks %}
-                <li class="{{ task.get_classes() }}">{{ task.name }}</li>
+                <li class="{{ task.get_classes() }}" data-task-id="{{ task.id }}">{{ task.name }}</li>
                 {% endfor %}
             </ul>
             <form>

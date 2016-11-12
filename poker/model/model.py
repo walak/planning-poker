@@ -1,4 +1,8 @@
 from enum import Enum
+from jsonpickle import pickler
+import sys
+
+from web.utils import generate_id
 
 
 class TaskStatus(Enum):
@@ -8,16 +12,39 @@ class TaskStatus(Enum):
 
 
 class Task:
-    def __init__(self, visual_id, name, description, status=TaskStatus.new):
-        self.visual_id = visual_id
+    def __init__(self, id, name, description, estimation, status=TaskStatus.new):
+        self.id = id
         self.name = name
         self.description = description
+        self.estimation = estimation
         self.status = status
+
+    @staticmethod
+    def create_new(name, description):
+        return Task(generate_id(),
+                    name,
+                    description,
+                    None,
+                    TaskStatus.new)
+
+    @staticmethod
+    def from_json(json):
+        return Task.create_new(json['name'], json['description'])
+
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        return pickler.encode(self) == pickler.encode(other)
 
 
 class TaskView(Task):
-    def __init__(self, visual_id, name, description, status=TaskStatus.new):
-        super().__init__(visual_id, name, description, status)
+    def __init__(self, id, name, description, estimation, status=TaskStatus.new):
+        super().__init__(id, name, description, estimation, status)
+
+    @staticmethod
+    def create_new(task):
+        return TaskView(task.id, task.name, task.description, task.estimation, task.status)
 
     def get_voted_class(self):
         if self.status is TaskStatus.voted:
@@ -40,6 +67,10 @@ class Estimate:
     def __init__(self, value, label):
         self.value = value
         self.label = label
+
+
+class Estimation:
+    pass
 
 
 class Player:
