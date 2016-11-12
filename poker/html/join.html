@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Planning Poker - Join the board {{ board.name }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Join the board {{ board.name }}{% endblock %}
+{% block content %}
 <h1>Planning Poker</h1>
 <h3>Join the board {{ board.name }}</h3>
 <form method="post" action="join_as">
@@ -27,5 +23,4 @@
         {% endif %}
     </div>
 </form>
-</body>
-</html>
+{% endblock %}
