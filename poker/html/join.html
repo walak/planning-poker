@@ -5,15 +5,19 @@
 <h3>Join the board {{ board.name }}</h3>
 <form method="post" action="join_as">
     <div>
-        <label for="nick">Nick:</label>
-        <input type="text" name="nick" id="nick" value="{{ nick }}">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="nick" style="width:100px">Name</span>
+            <input type="text" name="name" id="name" class="form-control" aria-describedby="nick" value="{{ nick }}">
+        </div>
         {% if board.with_roles() is equalto True %}
-        <label for="role">Role:</label>
-        <select name="role" id="role">
-            {% for role in board.roles %}
-            <option value="{{ role.short_name }}">{{ role.full_name }}</option>
-            {% endfor %}
-        </select>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="role_label" style="width:100px">Role</span>
+            <select class="selectpicker form-control" name="role" id="role" aria-describedby="role_label">
+                {% for role in board.roles %}
+                <option value="{{ role.short_name }}">{{ role.full_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
         {% endif %}
         <input type="button" value="Join!">
         {% if as_admin is equalto True %}

@@ -3,9 +3,13 @@
     margin:0px auto
 }
 
+#new-board {
+    margin-top:10px;
+}
 .form-column {
     float:left;
-    width:50%
+    width:50%;
+
 }
 
 .form-column-content {
@@ -17,4 +21,8 @@
 
 .cleared {
     clear:both
+}
+
+.margin20 {
+    margin-top:20px;
 }

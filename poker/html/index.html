@@ -6,7 +6,7 @@
 </div>
 <div class="panel">
     <h3>Create a new board</h3>
-    <form method="post" action="/board/new">
+    <form method="post" action="/board/new" id="new-board">
         <div class="input-group input-group-lg">
             <span class="input-group-addon" id="sizing-addon1">Name</span>
             <input type="text" name="name" id="name" class="form-control" aria-describedby="sizing-addon1">
@@ -27,9 +27,6 @@
                 <h4>
                     Select roles available on the board:
                 </h4>
-                <em>If you wish only some roles may be available on the board. Remember that <b>role is declared by
-                    player</b> and it is not intended to prevent people from joining
-                </em>
                 <div>
                     {% for role in roles %}
                     <div>
@@ -40,6 +37,9 @@
                     </div>
                     {% endfor %}
                 </div>
+                <em>If you wish only some roles may be available on the board. Remember that <b>role is declared by
+                    player</b> and it is not intended to prevent people from joining
+                </em>
                 </p>
             </div>
         </div>
@@ -58,7 +58,7 @@
         </div>
         <div class="form-column cleared">
             <div class="form-column-content">
-                <input type="submit" value="Create!">
+                <input type="submit" value="Create!" class="btn btn-primary">
             </div>
         </div>
     </form>
