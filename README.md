@@ -21,5 +21,5 @@ Install dependencies
 Run!
 
 ```bash
-./python poker/main.py
+python poker/main.py
 ```
