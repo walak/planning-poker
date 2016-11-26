@@ -1,4 +1,4 @@
-H2 Running the application (Windows, using MinGW):
+## Running the application (Windows, using MinGW):
 
 1. Create a Python 3.5 Virtual Environment (best run inside project root):
 
